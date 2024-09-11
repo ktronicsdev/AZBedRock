@@ -1,0 +1,59 @@
+name: Build and deploy Java project to Azure Function App - IOTServices-18293
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: IOTServices-18293 # set this to your function app name on Azure
+  PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
+  JAVA_VERSION: '17' # set this to the java version to use
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+
+      - name: 'Setup Java Sdk ${{ env.JAVA_VERSION }}'
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: 'Restore Project Dependencies Using Mvn'
+        run: |
+          pushd './${{ env.PACKAGE_DIRECTORY }}'
+          mvn clean package
+          popd
+        env:
+          AzureWebJobsDashboard: ${{ secrets.AzureWebJobsDashboard }}
+          APPINSIGHTS_INSTRUMENTATIONKEY: ${{ secrets.APPINSIGHTS_INSTRUMENTATIONKEY }}
+          FUNCTIONS_EXTENSION_VERSION: ${{ secrets.FUNCTIONS_EXTENSION_VERSION }}
+          FUNCTIONS_WORKER_RUNTIME: ${{ secrets.FUNCTIONS_WORKER_RUNTIME }}
+          AzureWebJobsStorage: ${{ secrets.AzureWebJobsStorage }}
+          WEBSITE_CONTENTSHARE: ${{ secrets.WEBSITE_CONTENTSHARE }}
+          WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: ${{ secrets.WEBSITE_CONTENTAZUREFILECONNECTIONSTRING }}
+          AZURE_SQL_CONNECTIONSTRING: ${{ secrets.AZURE_SQL_CONNECTIONSTRING }}
+
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: 'IOTServices-18293'
+          slot-name: 'Production'
+          package: '${{ env.PACKAGE_DIRECTORY }}'
+          respect-pom-xml: true
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_914AC9A6413942619DC7818C47981758 }}
+        env:
+          AzureWebJobsDashboard: ${{ secrets.AzureWebJobsDashboard }}
+          APPINSIGHTS_INSTRUMENTATIONKEY: ${{ secrets.APPINSIGHTS_INSTRUMENTATIONKEY }}
+          FUNCTIONS_EXTENSION_VERSION: ${{ secrets.FUNCTIONS_EXTENSION_VERSION }}
+          FUNCTIONS_WORKER_RUNTIME: ${{ secrets.FUNCTIONS_WORKER_RUNTIME }}
+          AzureWebJobsStorage: ${{ secrets.AzureWebJobsStorage }}
+          WEBSITE_CONTENTSHARE: ${{ secrets.WEBSITE_CONTENTSHARE }}
+          WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: ${{ secrets.WEBSITE_CONTENTAZUREFILECONNECTIONSTRING }}
+          AZURE_SQL_CONNECTIONSTRING: ${{ secrets.AZURE_SQL_CONNECTIONSTRING }}
