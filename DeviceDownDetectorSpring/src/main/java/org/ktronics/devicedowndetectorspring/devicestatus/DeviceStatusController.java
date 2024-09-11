@@ -24,7 +24,7 @@ public class DeviceStatusController {
             return ResponseEntity.ok(deviceStatusService.getDevicesWithStatusDown());
         }
         catch (Exception e) {
-            return ResponseEntity.status(500).body("An error occurred while fetching devices with status DOWN");
+            return ResponseEntity.status(500).body("An error occurred while fetching devices with status DOWN. " + e.getMessage());
         }
     }
 }

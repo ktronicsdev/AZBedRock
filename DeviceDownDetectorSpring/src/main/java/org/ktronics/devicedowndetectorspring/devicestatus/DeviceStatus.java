@@ -7,13 +7,15 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Availability")
-public class DeviceStatus {
+public final class DeviceStatus {
 
     @Id
-    private String IPAddress;
-    private String Status;
+    private final String IPAddress;
+    private final String Status;
 
     public DeviceStatus() {
+        this.IPAddress = null;
+        this.Status = null;
     }
 
     public DeviceStatus(String IPAddress, String Status) {
@@ -25,15 +27,7 @@ public class DeviceStatus {
         return IPAddress;
     }
 
-    public void setIPAddress(String IPAddress) {
-        this.IPAddress = IPAddress;
-    }
-
     public String getStatus() {
         return Status;
-    }
-
-    public void setStatus(String Status) {
-        this.Status = Status;
     }
 }
