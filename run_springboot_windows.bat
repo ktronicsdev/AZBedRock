@@ -1,15 +1,13 @@
 @echo off
 
 :: Set environment variables
-set AZURE_SQLSERVER_URL=your SQL server URL
-set AZURE_SQLSERVER_USERNAME=your SQL server username
-set AZURE_SQLSERVER_PASSWORD=your SQL server password
+set AZURE_SQL_CONNECTIONSTRING= your connection string
 
 :: Navigate to the Spring Boot project directory
 cd DeviceDownDetectorSpring
 
 :: Build the project
-mvn clean install
+call mvn clean install
 
 :: Run the Spring Boot application
-mvn spring-boot:run
+call mvn spring-boot:run
