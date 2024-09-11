@@ -1,10 +1,10 @@
-@echo on
+@echo off
 
 :: Set environment variable
 set AZURE_SQL_CONNECTIONSTRING= your connection string
 
 :: Navigate to the Azure Functions project directory
-cd DeviceDownDetector || (echo Directory not found & exit /b 1)
+cd DeviceDownDetector
 
 :: Package the project
 call mvn package
