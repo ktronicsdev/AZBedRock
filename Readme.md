@@ -24,16 +24,10 @@ Follow these steps to run the Spring Boot project:
    cd AZBedRock
    ```
 
-3. **Run the appropriate script based on your operating system:**
+3. **Run the script:**
 
-   - **Linux:**
      ```bash
-     ./run_springboot_linux.sh
-     ```
-
-   - **Windows:**
-     ```bash
-     run_springboot_windows.bat
+     ./run.bat Springboot
      ```
 
 ### Azure Functions Project
@@ -56,16 +50,10 @@ Follow these steps to run the Azure Functions project:
 
    Before proceeding, make sure you have [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local) installed on your machine.
 
-4. **Run the appropriate script based on your operating system:**
+4. **Run the script:**
 
-   - **Linux:**
      ```bash
-     ./run_azurefunctions_linux.sh
-     ```
-
-   - **Windows:**
-     ```bash
-     run_azurefunctions_windows.bat
+     ./run.bat AzureFunction
      ```
 
 
