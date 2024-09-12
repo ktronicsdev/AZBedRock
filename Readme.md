@@ -73,7 +73,7 @@ Follow these steps to run the Azure Functions project:
 
 Postman collections for testing the API endpoints are available at the following locations:
 
-- **Azure Functions:** [Azure Functions Postman Collection](https://github.com/pcgayan/AZBedRock/blob/main/DeviceDownDetector/Postman%20Collection/Azure%20Functions.postman_collection.json)
-- **Spring Boot:** [Spring Boot Postman Collection](https://github.com/pcgayan/AZBedRock/blob/main/DeviceDownDetectorSpring/Postman%20Collection/Spring.postman_collection.json)
+- **Azure Functions:** [Azure Functions Postman Collection](https://github.com/pcgayan/AZBedRock/blob/main/Postman%20Collection/Azure%20Functions.postman_collection.json)
+- **Spring Boot:** [Spring Boot Postman Collection](https://github.com/pcgayan/AZBedRock/blob/main/Postman%20Collection/Spring.postman_collection.json)
 
 ---
