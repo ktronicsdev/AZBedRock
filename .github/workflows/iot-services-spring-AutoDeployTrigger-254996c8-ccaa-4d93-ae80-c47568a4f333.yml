@@ -24,6 +24,14 @@ jobs:
       - name: Checkout to the branch
         uses: actions/checkout@v2
 
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17' # Specify the Java version
+
+      - name: Build Spring Boot project with Maven
+        run: mvn clean package -DskipTests
+
       - name: Azure Login
         uses: azure/login@v1
         with:
