@@ -1,25 +1,19 @@
 package org.ktronics.devicedowndetectorspring.devicestatus;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-@WebMvcTest(DeviceStatusController.class)
-public class DeviceStatusControllerTest {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-    @Autowired
-    private MockMvc mockMvc;
+class DeviceStatusControllerTest {
 
     @Mock
     private DeviceStatusService deviceStatusService;
@@ -27,48 +21,50 @@ public class DeviceStatusControllerTest {
     @InjectMocks
     private DeviceStatusController deviceStatusController;
 
+    private DeviceStatus deviceStatus;
+    private  ArrayList<Object> deviceStatusList;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        deviceStatus = new DeviceStatus("192.168.0.1", "Down");
+
+        deviceStatusList = new ArrayList<>();
+        deviceStatusList.add(deviceStatus);
     }
 
     @Test
-    public void testGetDevicesWithStatusDown() throws Exception {
-        // Arrange
-        when(deviceStatusService.getDevicesWithStatusDown()).thenReturn(new ArrayList<>()); // Return empty list for simplicity
+    void testGetDevicesWithStatusDown() {
+        when(deviceStatusService.getDevicesWithStatusDown()).thenReturn(deviceStatusList);
 
-        // Act & Assert
-        mockMvc.perform(get("/api/devices/down"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$").isArray());
+        ResponseEntity<?> responseEntity = deviceStatusController.getDevicesWithStatusDown();
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+        assertThat(responseEntity.getBody()).isEqualTo(deviceStatusList);
+        verify(deviceStatusService, times(1)).getDevicesWithStatusDown();
     }
 
     @Test
-    public void testGetDevicesWithStatusDownWithDevices() throws Exception {
-        // Arrange
-        var devices = new ArrayList<>();
-        devices.add(new DeviceStatus("192.168.0.1", "Down"));
-        devices.add(new DeviceStatus("192.168.1.1", "Down"));
-        when(deviceStatusService.getDevicesWithStatusDown()).thenReturn(devices);
+    void testGetDevicesWithStatusDown_NoDevicesDown() {
+        when(deviceStatusService.getDevicesWithStatusDown()).thenReturn(new ArrayList<>());
 
-        // Act & Assert
-        mockMvc.perform(get("/api/devices/down"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[1].name").value("Device2"));
+        ResponseEntity<?> responseEntity = deviceStatusController.getDevicesWithStatusDown();
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+        assertThat(responseEntity.getBody()).isInstanceOf(List.class);
+        assertThat(((List<?>) responseEntity.getBody()).isEmpty()).isTrue();
+        verify(deviceStatusService, times(1)).getDevicesWithStatusDown();
     }
 
     @Test
-    public void testGetDevicesWithStatusDownThrowsException() throws Exception {
-        // Arrange
-        when(deviceStatusService.getDevicesWithStatusDown()).thenThrow(new RuntimeException("Service error"));
+    void testGetDevicesWithStatusDown_ServiceThrowsException() {
+        when(deviceStatusService.getDevicesWithStatusDown()).thenThrow(new RuntimeException("Service failed"));
 
-        // Act & Assert
-        mockMvc.perform(get("/api/devices/down"))
-                .andExpect(status().isInternalServerError())
-                .andExpect(content().contentType("text/plain"))
-                .andExpect(content().string("An error occurred while fetching devices with status DOWN. Service error"));
+        ResponseEntity<?> responseEntity = deviceStatusController.getDevicesWithStatusDown();
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        assertThat(responseEntity.getBody()).isEqualTo("An error occurred while fetching devices with status DOWN. Service failed");
+        verify(deviceStatusService, times(1)).getDevicesWithStatusDown();
     }
 }
