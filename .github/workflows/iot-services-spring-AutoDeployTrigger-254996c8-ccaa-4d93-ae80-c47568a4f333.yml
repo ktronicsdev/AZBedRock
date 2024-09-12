@@ -28,6 +28,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17' # Specify the Java version
+          distribution: 'temurin' # Specify the Java distribution
 
       - name: Build Spring Boot project with Maven
         run: mvn clean package -DskipTests
