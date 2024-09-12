@@ -1,7 +1,7 @@
 @echo off
 
 :: Set environment variables
-set AZURE_SQL_CONNECTIONSTRING= your connection string
+set AZURE_SQL_CONNECTIONSTRING=your connection string
 
 :: Navigate to the Spring Boot project directory
 cd DeviceDownDetectorSpring
