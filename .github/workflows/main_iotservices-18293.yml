@@ -40,7 +40,7 @@ jobs:
         id: fa
         with:
           app-name: 'IOTServices-18293'
-          slot-name: 'Production'
+          slot-name: 'testing'
           package: '${{ env.PACKAGE_DIRECTORY }}'
           respect-pom-xml: true
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1C24C56728674C6A946BF669966E52B1 }}
