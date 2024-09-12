@@ -31,7 +31,9 @@ jobs:
           distribution: 'temurin' # Specify the Java distribution
 
       - name: Build Spring Boot project with Maven
-        run: mvn clean package -DskipTests
+        run: |
+          cd DeviceDownDetectorSpring
+          mvn clean package -DskipTests
 
       - name: Azure Login
         uses: azure/login@v1
