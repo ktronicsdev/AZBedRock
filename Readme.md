@@ -15,32 +15,26 @@ Follow these steps to run the Spring Boot project:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/maheladissa/DeviceDownDetectorSpring.git
+   git clone https://github.com/ktronicsdev/AZBedRock.git
    ```
 
 2. **Navigate to the Spring Boot project directory:**
 
    ```bash
-   cd DeviceDownDetectorSpring
+   cd AZBedRock
    ```
 
-3. **Build the project:**
+3. **Run the appropriate script based on your operating system:**
 
-   ```bash
-   AZURE_SQLSERVER_URL="your SQL server URL" \
-   AZURE_SQLSERVER_USERNAME="your SQL server username" \
-   AZURE_SQLSERVER_PASSWORD="your SQL server password" \
-   mvn clean install
-   ```
+   - **Linux:**
+     ```bash
+     ./run_springboot_linux.sh
+     ```
 
-4. **Run the Spring Boot application:**
-
-   ```bash
-   AZURE_SQLSERVER_URL="your SQL server URL" \
-   AZURE_SQLSERVER_USERNAME="your SQL server username" \
-   AZURE_SQLSERVER_PASSWORD="your SQL server password" \
-   mvn spring-boot:run
-   ```
+   - **Windows:**
+     ```bash
+     run_springboot_windows.bat
+     ```
 
 ### Azure Functions Project
 
@@ -49,28 +43,31 @@ Follow these steps to run the Azure Functions project:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/maheladissa/DeviceDownDetector.git
+   git clone https://github.com/ktronicsdev/AZBedRock.git
    ```
 
 2. **Navigate to the Azure Functions project directory:**
 
    ```bash
-   cd DeviceDownDetector
+   cd AZBedRock
    ```
 
-3. **Package the project:**
+3. **Ensure that Azure Functions Core Tools are installed:**
 
-   ```bash
-   AZURE_SQL_CONNECTIONSTRING="your SQL connection string" \
-   mvn package
-   ```
+   Before proceeding, make sure you have [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local) installed on your machine.
 
-4. **Run the Azure Functions locally:**
+4. **Run the appropriate script based on your operating system:**
 
-   ```bash
-   AZURE_SQL_CONNECTIONSTRING="your SQL connection string" \
-   mvn azurefunctions:run
-   ```
+   - **Linux:**
+     ```bash
+     ./run_azurefunctions_linux.sh
+     ```
+
+   - **Windows:**
+     ```bash
+     run_azurefunctions_windows.bat
+     ```
+
 
 ## How to Test via Postman
 
