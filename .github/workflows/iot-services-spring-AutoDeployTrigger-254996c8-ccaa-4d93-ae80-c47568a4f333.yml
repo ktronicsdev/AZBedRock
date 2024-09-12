@@ -1,0 +1,48 @@
+name: Trigger auto deployment for iot-services-spring
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/iot-services-spring-AutoDeployTrigger-254996c8-ccaa-4d93-ae80-c47568a4f333.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.IOTSERVICESSPRING_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.IOTSERVICESSPRING_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.IOTSERVICESSPRING_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/DeviceDownDetectorSpring
+          _dockerfilePathKey_: _dockerfilePath_
+          registryUrl: ktronicsiot.azurecr.io
+          registryUsername: ${{ secrets.IOTSERVICESSPRING_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.IOTSERVICESSPRING_REGISTRY_PASSWORD }}
+          containerAppName: iot-services-spring
+          resourceGroup: DefaultResourceGroup-WEU
+          imageToBuild: ktronicsiot.azurecr.io/iot-services-spring:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
