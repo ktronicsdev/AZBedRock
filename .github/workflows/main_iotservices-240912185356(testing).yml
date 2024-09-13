@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Java project to Azure Function App - devicedowndetectorfunction
+name: Build and deploy Java project to Azure Function App - iotservices-240912185356
 
 on:
   push:
@@ -10,27 +10,28 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_NAME: devicedowndetectorfunction # set this to your function app name on Azure
+  AZURE_FUNCTIONAPP_NAME: iotservices-240912185356 # set this to your function app name on Azure
   PACKAGE_DIRECTORY: './DeviceDownDetector' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '17' # set this to the java version to use
   AZURE_SQL_CONNECTIONSTRING: ${{ secrets.AZURE_SQL_CONNECTIONSTRING }}
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
 
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'microsoft'
 
       - name: 'Restore Project Dependencies Using Mvn'
         shell: pwsh
-        run: |+
+        run: |
           pushd './${{ env.PACKAGE_DIRECTORY }}'
           mvn clean package
           popd
@@ -39,8 +40,8 @@ jobs:
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: 'devicedowndetectorfunction'
-          slot-name: 'Production'
+          app-name: 'iotservices-240912185356'
+          slot-name: 'testing'
           package: '${{ env.PACKAGE_DIRECTORY }}'
           respect-pom-xml: true
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_94A83686B4EE4174A220F02CA3AEFA8D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D12FF0487D284567BCC827ADDD51FC4D }}
