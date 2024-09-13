@@ -64,7 +64,7 @@
                 <version>${azure.functions.maven.plugin.version}</version>
                 <configuration>
                     <!-- function app name -->
-                    <appName>DeviceDownDetector</appName>
+                    <appName>DeviceDownDetector-1725789279175</appName>
                     <!-- function app resource group -->
                     <resourceGroup>DevelopmentTraining</resourceGroup>
                     <!-- function app region-->
@@ -80,7 +80,7 @@
                     <!-- <disableAppInsights></disableAppInsights> -->
                     <runtime>
                         <!-- runtime os, could be windows, linux or docker-->
-                        <os>linux</os>
+                        <os>windows</os>
                         <javaVersion>17</javaVersion>
                     </runtime>
                     <appSettings>
