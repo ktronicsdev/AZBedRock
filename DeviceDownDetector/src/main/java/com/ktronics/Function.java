@@ -17,15 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Azure Functions with HTTP Trigger.
- */
+
 public final class Function {
-    /**
-     * This function listens at endpoint "/api/HttpExample". Two ways to invoke it using "curl" command in bash:
-     * 1. curl -d "HTTP Body" {your host}/api/HttpExample
-     * 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"
-     */
+
 
     private final String connectionString = System.getenv("AZURE_SQL_CONNECTIONSTRING");
 
@@ -40,13 +34,12 @@ public final class Function {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
 
-        List<String> ipAddresses = new ArrayList<>();
+        var ipAddresses = new ArrayList<>();
 
         try {
-            // Load the SQL Server JDBC driver
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            // Connect to the database
+
             String connectionUrl = connectionString;
             try (Connection conn = DriverManager.getConnection(connectionUrl)) {
                 Statement stmt = conn.createStatement();
