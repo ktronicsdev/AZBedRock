@@ -34,6 +34,10 @@ jobs:
         run: |
           pushd './${{ env.PACKAGE_DIRECTORY }}'
           mvn clean package
+
+          # Add this command to list all files in the target directory after the build
+          Get-ChildItem -Recurse './target'
+          
           popd
       
       - name: 'Run Azure Functions Action'
