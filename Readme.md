@@ -3,6 +3,7 @@
 # Device Down Detector
 
 ## Description
+This is an evaluation POC only. 
 
 This repository contains two projects that detect if a device is down by retrieving the IP addresses of the downed devices from a SQL database. The first project is a **Spring Boot application**, and the second is an **Azure Functions** project.
 
